@@ -7,16 +7,16 @@ public class ToggleActiveState : MonoBehaviour
     [SerializeField] private GameObject[] toggleObjectsOn = null, toggleObjectsOff = null;
     public void ToggleObjects()
     {
-        if(toggleObjectsOff!=null)
+        foreach (GameObject singleObject in toggleObjectsOff)
         {
-            foreach (GameObject singleObject in toggleObjectsOff)
+            if (singleObject != null)
             {
                 singleObject.SetActive(false);
             }
         }
-        if(toggleObjectsOn!=null)
+        foreach (GameObject singleObject in toggleObjectsOn)
         {
-            foreach (GameObject singleObject in toggleObjectsOn)
+            if (singleObject != null)
             {
                 singleObject.SetActive(true);
             }
