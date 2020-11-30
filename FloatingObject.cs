@@ -2,30 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
+
 public class FloatingObject : MonoBehaviour
 {
+
     private Transform playerTransform;
     private Rigidbody rb;
 
-    [SerializeField] float idleMoveSpeed=1;
+    float idleMoveSpeed=1;
 
     private bool didHit = false;
     private Vector3 rotationAxis = Vector3.up;
     private Vector3 collisionVelocity;
     
-    [SerializeField] private float forceMultiplier = 10;
+    private float forceMultiplier = 1;
+
+    private Vector3 endScale;
 
     // Start is called before the first frame update
     private void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody>();
+        endScale = transform.localScale;
+        transform.localScale=new Vector3(0.1f,0.1f,0.1f);
     }
 
     // Update is called once per frame
     private void Update()
     {
-        Debug.Log(didHit);
+        if (transform.localScale.x < endScale.x)
+        {
+            transform.localScale*=1.25f;
+        }
         if (!didHit)
         {
             transform.RotateAround(playerTransform.position, rotationAxis, idleMoveSpeed * Time.deltaTime);
@@ -50,5 +60,18 @@ public class FloatingObject : MonoBehaviour
         {
             CalculateCollisionForce();
         }
+    }
+    public void SetIdleSpeed(float speed)
+    {
+        idleMoveSpeed = speed;
+    }
+    public void Dragged()
+    {
+        didHit = true;
+    }
+
+    public void SetCollisionForce(float force)
+    {
+        forceMultiplier = force;
     }
 }
