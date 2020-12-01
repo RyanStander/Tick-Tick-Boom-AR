@@ -5,6 +5,7 @@ public class ObjectSpawner : MonoBehaviour
 {
     private Transform playerTransform;
 
+    //Shapes
     [SerializeField] private GameObject[] clouds=null;
     [SerializeField] private int minClouds;
     [SerializeField] private int maxClouds;
@@ -37,23 +38,23 @@ public class ObjectSpawner : MonoBehaviour
     {       
         for (int i = 0; i < totalShards; i++)
         {
-            StartCoroutine(SpawnParams(shards[Random.Range(0, shards.Length)]));
+            StartCoroutine(SpawnParams(shards[Random.Range(0, shards.Length)],true));
         }
         for (int i = 0; i < totalTubes; i++)
         {
-            StartCoroutine(SpawnParams(tubes[Random.Range(0, tubes.Length)]));
+            StartCoroutine(SpawnParams(tubes[Random.Range(0, tubes.Length)],true));
         }
         for (int i = 0; i < totalCrowns; i++)
         {
-            StartCoroutine(SpawnParams(crowns[Random.Range(0, crowns.Length)]));
+            StartCoroutine(SpawnParams(crowns[Random.Range(0, crowns.Length)],true));
         }
         for (int i = 0; i < totalClouds; i++)
         {
-            StartCoroutine(SpawnParams(clouds[Random.Range(0, clouds.Length)]));
+            StartCoroutine(SpawnParams(clouds[Random.Range(0, clouds.Length)],false));
         }
     }
 
-    IEnumerator SpawnParams(GameObject obj)
+    IEnumerator SpawnParams(GameObject obj, bool hasAnimator)
     {
         yield return new WaitForSeconds(Random.Range(0f, 3f));
         Quaternion spawnRotation = Random.rotation;
@@ -63,10 +64,12 @@ public class ObjectSpawner : MonoBehaviour
         floatTemp.SetIdleSpeed(maxSpeed);
         floatTemp.SetCollisionForce(collisionForce);
         obj.GetComponent<Rigidbody>().useGravity = false;
+
+        if(hasAnimator)
+        {
+            //Apply animator
+            obj.AddComponent<ShapeAnimator>();
+        }
     }
 
-    private void Update()
-    {
-        
-    }
 }
