@@ -13,21 +13,21 @@ public class EventManager : MonoBehaviour
         onPictureTaken?.Invoke(directoryPath);
     }
 
-    public delegate void GalleryManagerUpdatedDelegate(); //Define the method signature
-    public static event GalleryManagerUpdatedDelegate onGalleryManagerUpdated; //Define the event 
-
-    //Fire the event for any subscribed
-    public static void GalleryManagerUpdated()
-    {
-        onGalleryManagerUpdated?.Invoke();
-    }
-
-    public delegate void PictureDeleteDelegate(int identifier); //Define the method signature
+    public delegate void PictureDeleteDelegate(); //Define the method signature
     public static event PictureDeleteDelegate onPictureDelete; //Define the event 
 
     //Fire the event for any subscribed
-    public static void PictureDelete(int identifier)
+    public static void PictureDelete()
     {
-        onPictureDelete?.Invoke(identifier);
+        onPictureDelete?.Invoke();
+    }
+
+    public delegate void PictureSelectedDelegate(int identifier); //Define the method signature
+    public static event PictureSelectedDelegate onPictureSelected; //Define the event 
+
+    //Fire the event for any subscribed
+    public static void PictureSelected(int identifier)
+    {
+        onPictureSelected?.Invoke(identifier);
     }
 }
