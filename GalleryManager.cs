@@ -6,11 +6,9 @@ using System.Linq;
 
 public class GalleryManager : MonoBehaviour
 {
-    //private static Dictionary<int, string> pictures = new Dictionary<int, string>();
     private static List<string> pictures= new List<string>();
-
     private static int selectedPicture = 0;
-
+    
     //Listeners
     void OnEnable()
     {
@@ -63,6 +61,12 @@ public class GalleryManager : MonoBehaviour
         {
             //Import images after cleaning list
             pictures.Clear();
+
+            //If file directory does not exist, create
+            if (!Directory.Exists(Application.persistentDataPath + "/Pictures"))
+            {
+                Directory.CreateDirectory(Application.persistentDataPath + "/Pictures");
+            }
 
             //Get files in directory sorted by date and file type
             foreach (string pictureFP in Directory.GetFiles(
