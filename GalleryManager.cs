@@ -62,12 +62,6 @@ public class GalleryManager : MonoBehaviour
             //Import images after cleaning list
             pictures.Clear();
 
-            //If file directory does not exist, create
-            if (!Directory.Exists(Application.persistentDataPath + "/Pictures"))
-            {
-                Directory.CreateDirectory(Application.persistentDataPath + "/Pictures");
-            }
-
             //Get files in directory sorted by date and file type
             foreach (string pictureFP in Directory.GetFiles(
                 GetPicturesDirectory()
@@ -81,23 +75,33 @@ public class GalleryManager : MonoBehaviour
     }
     private string GetPicturesDirectory()
     {
-        //If file directory does not exist, create
-        if (!Directory.Exists(Application.persistentDataPath + "/Pictures"))
-        {
-            Directory.CreateDirectory(Application.persistentDataPath + "/Pictures");
-        }
 
         switch (Application.platform)
         {
             case RuntimePlatform.WindowsEditor:
+                //If file directory does not exist, create
+                if (!Directory.Exists(Application.dataPath + "/Pictures"))
+                {
+                    Directory.CreateDirectory(Application.dataPath + "/Pictures");
+                }
                 return string.Format("{0}/Pictures",
                     Application.dataPath);
 
             case RuntimePlatform.Android:
+                //If file directory does not exist, create
+                if (!Directory.Exists(Application.persistentDataPath + "/Pictures"))
+                {
+                    Directory.CreateDirectory(Application.persistentDataPath + "/Pictures");
+                }
                 return string.Format("{0}/Pictures",
                     Application.persistentDataPath);
 
             default:
+                //If file directory does not exist, create
+                if (!Directory.Exists(System.IO.Directory.GetParent(Application.dataPath).FullName + "/Pictures"))
+                {
+                    Directory.CreateDirectory(System.IO.Directory.GetParent(Application.dataPath).FullName + "/Pictures");
+                }
                 return string.Format("{0}/Pictures",
                     System.IO.Directory.GetParent(Application.dataPath).FullName);
         }
